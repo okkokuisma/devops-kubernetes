@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ponger-svc
+  namespace: logger-ponger
+spec:
+  type: ClusterIP
+  selector:
+    app: ponger
+  ports:
+    - port: 4567
+      protocol: TCP
+      targetPort: 3001

@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: daily-wiki
+  namespace: project
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: daily-wiki
+            image: okisma/daily-wiki:2.09.1
+            imagePullPolicy: IfNotPresent
+          restartPolicy: OnFailure

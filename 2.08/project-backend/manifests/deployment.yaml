@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-backend-dep
+  namespace: project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-backend
+  template:
+    metadata:
+      labels:
+        app: project-backend
+    spec:
+      volumes:
+        - name: image-cache
+          emptyDir: {}
+      containers:
+        - name: project-backend
+          image: okisma/project-backend:2.08.6
+          volumeMounts:
+          - name: image-cache
+            mountPath: /usr/src/app/public
+          envFrom:
+            - secretRef:
+                name: db-secrets
