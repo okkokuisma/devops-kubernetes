@@ -7,12 +7,12 @@ const validateInput = (input) => {
 }
 
 todoRouter.post('/', async (req, res) => {
-  console.log(`req.body.content`)
+  console.log(`${new Date()}: ${req.body.content}`)
   if (validateInput(req.body.content)) {
     const createdTodo = await todoService.create({ content: req.body.content })
     res.status(201).json(createdTodo)
   } else {
-    res.status(400)
+    res.status(400).send('Todos must be under 140 characters long.')
   }
 })
 

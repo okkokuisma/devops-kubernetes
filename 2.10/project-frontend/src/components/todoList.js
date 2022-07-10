@@ -6,10 +6,12 @@ const TodoList = ({ todos, setTodos }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const createdTodo = await createTodo({
-      content: todo,
-    })
-    setTodos(todos.concat(createdTodo))
+    if (todo.length <= 140) {
+      const createdTodo = await createTodo({
+        content: todo,
+      })
+      setTodos(todos.concat(createdTodo))
+    }
   }
 
   return (
