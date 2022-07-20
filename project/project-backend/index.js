@@ -40,6 +40,10 @@ app.get('/api/image', async (req, res) => {
 
 app.use('/api/todos', todoRouter)
 
+app.use('/', (req, res) => {
+  res.status(200).send('pong')
+})
+
 const start = async () => {
   await connectToDatabase()
   const job = cron.job('0 0 * * *', fetchDailyImage)
