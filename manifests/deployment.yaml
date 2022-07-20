@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: project-backend-dep
+  name: project-backend
   namespace: project
 spec:
   replicas: 1
@@ -31,7 +31,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: project-frontend-dep
+  name: project-frontend
   namespace: project
 spec:
   replicas: 1
