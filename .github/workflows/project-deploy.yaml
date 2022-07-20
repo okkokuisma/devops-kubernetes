@@ -37,8 +37,8 @@ jobs:
 
       - name: Build
         run: |-
-          cd project-backend && docker build --tag "gcr.io/$PROJECT_ID/$BACKEND_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
-          cd ../project-frontend && docker build --tag "gcr.io/$PROJECT_ID/$FRONTEND_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+          cd project-backend && docker build --tag "gcr.io/$PROJECT_ID/$BACKEND_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" .
+          cd ../project-frontend && docker build --tag "gcr.io/$PROJECT_ID/$FRONTEND_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" .
 
       - name: Publish
         run: |-
