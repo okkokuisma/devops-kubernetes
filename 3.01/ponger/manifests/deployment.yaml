@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ponger-dep
+  namespace: logger-ponger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ponger
+  template:
+    metadata:
+      labels:
+        app: ponger
+    spec:
+      containers:
+        - name: ponger
+          image: okisma/ponger:2.07.1
+          envFrom:
+            - secretRef:
+                name: db-secrets
