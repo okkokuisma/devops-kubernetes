@@ -1,7 +1,7 @@
 name: Delete namespace corresponding to a deleted branch
 
 on:
-  delete:
+  delete
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
@@ -13,6 +13,7 @@ env:
 jobs:
   setup-delete:
     name: Setup, Build, Publish, and Deploy
+    if: github.event.ref_type == 'branch'
     runs-on: ubuntu-latest
 
     steps:
@@ -34,4 +35,4 @@ jobs:
 
       - name: Delete the corresponding namespace
         run: |-
-          kubectl delete namespaces ${GITHUB_REF#refs/heads/}
+          kubectl delete namespaces ${{ github.event.ref }}
