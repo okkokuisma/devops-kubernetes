@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-backend
+  namespace: project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-backend
+  template:
+    metadata:
+      labels:
+        app: project-backend
+    spec:
+      volumes:
+        - name: image-cache
+          emptyDir: {}
+      containers:
+        - name: project-backend
+          image: gcr.io/PROJECT_ID/BACKEND_IMAGE
+          volumeMounts:
+          - name: image-cache
+            mountPath: /usr/src/app/public
+          envFrom:
+            - secretRef:
+                name: db-secrets
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-frontend
+  namespace: project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-frontend
+  template:
+    metadata:
+      labels:
+        app: project-frontend
+    spec:
+      containers:
+        - name: project-frontend
+          image: gcr.io/PROJECT_ID/FRONTEND_IMAGE
