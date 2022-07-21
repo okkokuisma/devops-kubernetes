@@ -1,6 +1,0 @@
-POST http://localhost:3001/api/todos
-content-type: application/json
-
-{
-  "content": "lol"
-}
