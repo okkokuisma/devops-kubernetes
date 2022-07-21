@@ -1,0 +1,37 @@
+name: Delete namespace corresponding to a deleted branch
+
+on:
+  delete:
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: dwk-cluster
+  GKE_ZONE: europe-north1-b
+  BACKEND_IMAGE: project-backend
+  FRONTEND_IMAGE: project-frontend
+
+jobs:
+  setup-delete:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          project_id: ${{ secrets.GKE_PROJECT }}
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          export_default_credentials: true
+
+      - run: |-
+          gcloud --quiet auth configure-docker
+
+      - run: |-
+          gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+
+      - name: Delete the corresponding namespace
+        run: |-
+          kubectl delete namespaces ${GITHUB_REF#refs/heads/}
