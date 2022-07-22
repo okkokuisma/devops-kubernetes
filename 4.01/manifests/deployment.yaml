@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ponger-dep
+  namespace: logger-ponger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ponger
+  template:
+    metadata:
+      labels:
+        app: ponger
+    spec:
+      containers:
+        - name: ponger
+          image: okisma/ponger:4.01
+          envFrom:
+            - secretRef:
+                name: db-secrets
+          ports:
+            - containerPort: 3001
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+               path: /healthz
+               port: 3001
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logger-dep
+  namespace: logger-ponger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logger
+  template:
+    metadata:
+      labels:
+        app: logger
+    spec:
+      containers:
+        - name: logger
+          image: okisma/logger:4.01.2
+          envFrom:
+            - secretRef:
+                name: db-secrets
+          ports:
+            - containerPort: 3002
+          readinessProbe:
+            initialDelaySeconds: 12
+            periodSeconds: 5
+            httpGet:
+               path: /healthz
+               port: 3002
