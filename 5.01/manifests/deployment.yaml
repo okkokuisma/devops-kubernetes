@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummysite-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummysite-controller
+  template:
+    metadata:
+      labels:
+        app: dummysite-controller
+    spec:
+      volumes:
+        - name: dummy-htmls
+          emptyDir: {}
+      serviceAccountName: dummysite-controller-account
+      containers:
+        - name: dummysite-controller
+          image: okisma/dummysite-controller:5.01.5
+          env:
+            - name: WEBSITE_URL
+              value: https://example.com/
+          volumeMounts:
+            - name: dummy-htmls
+              mountPath: /usr/src/app/dummy-htmls

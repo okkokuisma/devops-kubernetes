@@ -1,0 +1,17 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: ponger
+  namespace: logger-ponger
+spec:
+  template:
+    metadata:
+      name: ponger-v1
+    spec:
+      containers:
+        - image: okisma/ponger:5.05
+          envFrom:
+            - secretRef:
+                name: db-secrets
+          # ports:
+          #   - containerPort: 8080
