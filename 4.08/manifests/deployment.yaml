@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-backend
+  namespace: project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-backend
+  template:
+    metadata:
+      labels:
+        app: project-backend
+    spec:
+      volumes:
+        - name: image-cache
+          emptyDir: {}
+      containers:
+        - name: project-backend
+          image: okisma/project-backend:4.06.1
+          volumeMounts:
+          - name: image-cache
+            mountPath: /usr/src/app/public
+          envFrom:
+            - secretRef:
+                name: db-secrets
+          env:
+            - name: NATS_URL
+              value: nats://nats.default:4222
+          ports:
+            - containerPort: 3001
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+               path: /healthz
+               port: 3001
+          livenessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            httpGet:
+               path: /healthz
+               port: 3001
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-frontend
+  namespace: project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-frontend
+  template:
+    metadata:
+      labels:
+        app: project-frontend
+    spec:
+      containers:
+        - name: project-frontend
+          image: okisma/project-frontend:4.08.1
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-broadcaster
+  namespace: project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-broadcaster
+  template:
+    metadata:
+      labels:
+        app: project-broadcaster
+    spec:
+      containers:
+        - name: project-broadcaster
+          image: okisma/project-broadcaster:4.06.2
+          env:
+            - name: NATS_URL
+              value: nats://nats.default:4222
+            - name: BROADCAST_URL
+              value: http://backend-svc:4567/msg

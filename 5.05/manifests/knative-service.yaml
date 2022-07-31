@@ -13,5 +13,3 @@ spec:
           envFrom:
             - secretRef:
                 name: db-secrets
-          # ports:
-          #   - containerPort: 8080
