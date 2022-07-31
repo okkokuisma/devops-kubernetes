@@ -8,10 +8,10 @@ resources:
 images:
 - name: BACKEND_IMAGE
   newName: okisma/project-backend
-  newTag: ebfc37cb9a8246324409a97dc148141edc7044c3
+  newTag: 54bf992803cbb001e0d3b74127ca06571e019ec2
 - name: BROADCASTER_IMAGE
   newName: okisma/project-broadcaster
-  newTag: ebfc37cb9a8246324409a97dc148141edc7044c3
+  newTag: 54bf992803cbb001e0d3b74127ca06571e019ec2
 - name: FRONTEND_IMAGE
   newName: okisma/project-frontend
-  newTag: ebfc37cb9a8246324409a97dc148141edc7044c3
+  newTag: 54bf992803cbb001e0d3b74127ca06571e019ec2
