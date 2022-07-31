@@ -1,0 +1,18 @@
+mongoDB - in another course
+PostgreSQL - used in project
+redis - in another course
+nats - used in project
+helm - used to install prometheus
+gradle - used in another project
+argo - used to deploy canary releases
+flux - used to automate deployment
+GitHub Actions - used to automate deployment
+Google Kubernetes Engine - used in part 3
+kubernetes - well…
+contour - used while setting up serverless project
+traefik - used by k3d
+nginx - used in project to serve frontend
+linkerd - used in part 5 as a service mesh
+prometheus - used to collect metrics from the apps
+grafana - used to browse project logs
+k3s - used by k3d

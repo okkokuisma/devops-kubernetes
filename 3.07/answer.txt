@@ -1,0 +1,1 @@
+I decided to use Postgres with PersistentVolumeClaims in my project as 1) I had it mostly set up already and 2) researching Google Cloud SQL seemed like too much of a hassle.

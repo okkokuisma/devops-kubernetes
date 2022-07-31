@@ -18,10 +18,7 @@ spec:
       serviceAccountName: dummysite-controller-account
       containers:
         - name: dummysite-controller
-          image: okisma/dummysite-controller:5.01.5
-          env:
-            - name: WEBSITE_URL
-              value: https://example.com/
+          image: okisma/dummysite-controller:5.01.7
           volumeMounts:
             - name: dummy-htmls
               mountPath: /usr/src/app/dummy-htmls

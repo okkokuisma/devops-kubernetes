@@ -1,0 +1,6 @@
+Rancher is like way much better ‘cause:
+- the installation process of OpenShift is more complicated and could take days or even weeks
+- OpenShift has longer installation and upgrade times which could be a problem i.e. when deploying the entire cluster during deployment pipeline
+- Rancher follows and extends industy standards while RedHat has some of its own tools that could create a vendor-lock
+- It’s easier to switch to vanilla Kubernetes after using Rancher
+- Rancher is fully open source while the Enterprise version of OpenShift is not

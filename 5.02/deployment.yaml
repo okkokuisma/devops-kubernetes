@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-backend
+  namespace: project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-backend
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: project-backend
+    spec:
+      containers:
+      - env:
+        - name: NATS_URL
+          value: nats://my-nats.default:4222
+        envFrom:
+        - secretRef:
+            name: db-secrets
+        image: okisma/project-backend:4.06.1
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 3001
+          initialDelaySeconds: 20
+          periodSeconds: 5
+        name: project-backend
+        ports:
+        - containerPort: 3001
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 3001
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        volumeMounts:
+        - mountPath: /usr/src/app/public
+          name: image-cache
+      volumes:
+      - emptyDir: {}
+        name: image-cache
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-frontend
+  namespace: project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-frontend
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: project-frontend
+    spec:
+      containers:
+      - image: okisma/project-frontend:4.08.1
+        name: project-frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-broadcaster
+  namespace: project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-broadcaster
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: project-broadcaster
+    spec:
+      containers:
+      - env:
+        - name: NATS_URL
+          value: nats://my-nats.default:4222
+        - name: BROADCAST_URL
+          value: http://backend-svc:4567/msg
+        image: okisma/project-broadcaster:4.06.2
+        name: project-broadcaster
+---
