@@ -5,3 +5,13 @@ resources:
 - deployment.yaml
 - service.yaml
 - ingress.yaml
+images:
+- name: BACKEND_IMAGE
+  newName: okisma/project-backend
+  newTag: 9de11525c2e8b0b7b0089bd9257d534fcca914e7
+- name: BROADCASTER_IMAGE
+  newName: okisma/project-broadcaster
+  newTag: 9de11525c2e8b0b7b0089bd9257d534fcca914e7
+- name: FRONTEND_IMAGE
+  newName: okisma/project-frontend
+  newTag: 9de11525c2e8b0b7b0089bd9257d534fcca914e7
